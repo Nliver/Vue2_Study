@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>23-Vue自定义全局过滤器</title>
+    <!--   1. 下载导入Vue.js-->
+    <!--    通过数据驱动更新-->
+    <script src="../js/vue.js"></script>
+</head>
+
+<body>
+    <!-- 
+        1.自定义全局过滤器的特点
+        在任何一个Vue实例控制的区域中都可以使用
+
+        2.自定义局部过滤器的特点
+        只能在自定义的那个Vue实例中评使用
+
+        3. 如何自定义一个局部指令
+        给创建Vue实例时传递的对象添加
+        filters: {
+            //key: 过滤器名称
+            //value: 过滤器处理函数
+            'formartStr': function(value){}
+        }
+    -->
+    <div id="app1">
+        <!-- Vue会把name交给指定的过滤器处理之后，再把处理之后的结果插入到指定的元素中 -->
+        <p>{{name | formartStr}}</p>
+    </div>
+    <div id="app2">
+        <!-- Vue会把name交给指定的过滤器处理之后，再把处理之后的结果插入到指定的元素中 -->
+        <p>{{name | formartStr}}</p>
+    </div>
+    <script>
+        /*         Vue.filter("formartStr", function(value){
+                    // console.log(value);
+                    value = value.replace(/大学/g, "Web");
+                    console.log(value);
+                    return value
+                }); */
+
+        // 这里就是MVVM中的View Model
+        let vue1 = new Vue({
+            el: '#app1',
+            // 这里就是MVVM中的Model
+            data: {
+                name: '李MK大学 优厘图大学 万方达大学 酷睿大学'
+
+            },
+            // 专门用于存储监听事件回调函数
+            methods: {
+                /* 
+                    函数的特点：每次调用都会执行
+                */
+                msg1() {
+                    console.log("msg1函数被执行了");
+                    res = "abcdefg".split("").reverse().join("");
+                    return res;
+                }
+            },
+            // 专门用于定义计算属性的
+            computed: {
+                msg2: function () {
+                    console.log("msg2计算属性被执行了");
+                    let res = "abcdefg".split("").reverse().join("");
+                    return res;
+                }
+            }
+        });
+
+        let vue2 = new Vue({
+            el: '#app2',
+            // 这里就是MVVM中的Model
+            data: {
+                name: '李MK大学 优厘图大学 万方达大学 酷睿大学'
+
+            },
+            // 专门用于存储监听事件回调函数
+            methods: {
+                /* 
+                    函数的特点：每次调用都会执行
+                */
+                msg1() {
+                    console.log("msg1函数被执行了");
+                    res = "abcdefg".split("").reverse().join("");
+                    return res;
+                }
+            },
+            // 专门用于定义计算属性的
+            computed: {
+                msg2: function () {
+                    console.log("msg2计算属性被执行了");
+                    let res = "abcdefg".split("").reverse().join("");
+                    return res;
+                }
+            },
+            // 专门用来定义局部过滤器的
+            filters: {
+                "formartStr": function (value) {
+                    // console.log(value);
+                    value = value.replace(/大学/g, "Web");
+                    console.log(value);
+                    return value
+                }
+            }
+            });
+    </script>
+</body>
+
+</html>

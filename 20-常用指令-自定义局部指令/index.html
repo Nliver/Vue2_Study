@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>21-常用指令-自定义局部指令</title>
+    <script src="../js/vue.js"></script>
+</head>
+
+<body>
+    <!-- 
+        1. 自定义全局指令的特点
+        在任何一个Vue实例控制的区域中都可以使用
+
+        2. 自定义局部指令的特点
+        只能在自定义的那个Vue实例中使用
+
+        3. 如何自定义一个局部指令
+        给创建Vue实例时传递的对象添加
+
+    -->
+    <div id="app1">
+        <p v-color="'blue'">我是段落</p>
+    </div>
+    <div id="app2">
+        <p v-color="'red'">我是段落</p>
+    </div>
+    <script>
+        /* 
+        
+        */
+        /*   Vue.directive('color', {
+                bind: function(el, obj) {
+                    // el.style.color = "red";
+                    el.style.color = obj.value;
+                }
+            }); */
+        //2. 创建一个Vue的实例对象
+        let vue = new Vue({
+            //3. 告诉Vue的实例对象，将来需要控制界面上的哪个区域
+            el: '#app1',
+            //4. 告诉Vue的实例对象，被控制区域的数据是什么
+            data: {
+                name: '李MK',
+                curColor: 'green'
+            },
+            methods: {
+                myFn() {
+                    alert('把啦啦啦~');
+                }
+            }
+        });
+        let vue2 = new Vue({
+            //3. 告诉Vue的实例对象，将来需要控制界面上的哪个区域
+            el: '#app2',
+            //4. 告诉Vue的实例对象，被控制区域的数据是什么
+            data: {
+
+            },
+            // 专门用于存储监听事件回调函数
+            methods: {
+                myFn() {
+                    alert('把啦啦啦~');
+                }
+            },
+            // 专门用于定义局部指令的
+            directives: {
+                "color": {
+                    bind: function (el, obj) {
+                        // el.style.color = "red";
+                        el.style.color = obj.value;
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
