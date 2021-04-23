@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.min.js"></script>
+    <title>30-Vue过渡动画下-第三方动画库</title>
+    <!--   1. 下载导入Vue.js-->
+    <!--    通过数据驱动更新-->
+    <script src="../js/vue.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        .box {
+            width: 200px;
+            height: 200px;
+            background-color:red;
+        }
+
+        /* .v-enter {
+            opacity: 0;
+        }
+        .v-enter-to {
+            opacity: 1;
+        }
+        .v-enter-active {
+            transition: all 3s;
+        }
+
+        .v-leave {
+            opacity: 1;
+        }
+        .v-leave-to {
+            opacity: 0;
+        }
+        .v-leave-active {
+            transition: all 3s;
+        } */
+
+        
+    </style>
+</head>
+
+<body>
+<!-- 
+    使用第三方动画库Velocity库
+-->
+    <div id="app1">
+        <button @click="toggle">我是按钮</button>
+        <!-- 
+        注意点：虽然我们是通过JS钩子函数来实现过渡动画
+        但是默认Vue还是会去查找类名，所以为了不让Vue去查找类名
+        可以给transition添加v-bind:css="false"
+        -->
+        <transition appear
+                    v-bind:css="false"
+                    v-on:before-enter="beforeEnter"
+                    v-on:enter="enter"
+                    v-on:after-enter="afterEnter">
+            <div class="box" v-show="isShow"></div>
+            <!-- <div class="box" v-show="isShow"></div> -->
+        </transition>
+
+    </div>
+    <script>
+
+        // 这里就是MVVM中的View Model
+        let vue1 = new Vue({
+            el: '#app1',
+            // 这里就是MVVM中的Model
+            data: {
+                isShow: true
+
+            },
+            // 专门用于存储监听事件回调函数
+            methods: {
+                /*
+                    函数的特点：每次调用都会执行
+                */
+                toggle: function () {
+                    this.isShow = !this.isShow;
+                },
+                beforeEnter(el){
+                    // 进入动画开始之前
+                    console.log("beforeEnter");
+                    el.style.opacity = "0";
+                },
+                enter(el, done){
+                    // 进入动画执行过程中
+                    console.log("enter");
+                    Velocity(el,{opacity: 1,marginLeft:"500px"}, 3000)
+                    done();
+                },
+                afterEnter(el){
+                    // 进入动画执行完毕之后
+                    console.log("afterEnter");
+                    el.style.opacity = "1";
+                    el.style.marginLeft = "500px";
+                }
+            },
+            // 专门用于定义计算属性的
+            computed: {
+
+            }
+        });
+    </script>
+</body>
+
+</html>
